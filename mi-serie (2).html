@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mi Serie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#1c1245; --plum:#3a1a6e; --rose:#ff4f9a; --gold:#ffd24d; --mint:#6af0d2; --ink:#ffffff; --soft:#d9cffc;
+  --glass:rgba(255,255,255,.1); --line:rgba(255,255,255,.22);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; color:var(--ink); font-family:Nunito,system-ui,sans-serif; min-height:100vh;
+  background:radial-gradient(1200px 600px at 80% -10%,#7a2bb8 0%,transparent 60%),
+             radial-gradient(900px 500px at 0% 20%,#d6347f55 0%,transparent 60%),
+             linear-gradient(180deg,var(--night),#120a30 70%);
+  background-attachment:fixed;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+h1,h2,h3,.brand,.nav a,summary{font-family:Fredoka,Nunito,system-ui,sans-serif}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold); outline-offset:3px}
+
+/* Menú */
+header{
+  position:sticky; top:0; z-index:10;
+  padding:calc(10px + env(safe-area-inset-top,0px)) clamp(14px,4vw,48px) 10px;
+  display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+  background:rgba(22,12,56,.78); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.brand{font-size:1.6rem; font-weight:700; text-decoration:none; display:flex; align-items:center; gap:10px}
+.brand svg{width:30px; height:30px; flex:none}
+.nav{display:flex; align-items:center; gap:6px; margin-left:auto; flex-wrap:wrap}
+.nav a,summary{
+  padding:9px 18px; border-radius:999px; text-decoration:none; font-weight:600; font-size:1.05rem;
+  cursor:pointer; list-style:none; user-select:none;
+}
+summary::-webkit-details-marker{display:none}
+.nav a:hover,summary:hover,.nav a[aria-current="page"]{background:var(--glass)}
+.nav a[aria-current="page"]{box-shadow:inset 0 0 0 2px var(--rose)}
+details{position:relative}
+details[open] summary{background:var(--glass)}
+.drop{
+  position:absolute; right:0; top:calc(100% + 8px); min-width:210px; padding:8px; z-index:20;
+  background:#2a1560; border:1px solid var(--line); border-radius:18px;
+  box-shadow:0 18px 40px rgba(0,0,0,.45);
+}
+.drop button{
+  display:flex; width:100%; justify-content:space-between; gap:12px; align-items:center;
+  background:none; border:none; color:inherit; font:600 1rem Fredoka,sans-serif;
+  padding:10px 14px; border-radius:12px; cursor:pointer; text-align:left;
+}
+.drop button:hover{background:var(--glass)}
+.drop small{color:var(--soft); font:600 .8rem Nunito,sans-serif}
+
+main{max-width:1200px; margin:0 auto; padding:0 clamp(14px,4vw,48px) 70px}
+section[hidden]{display:none}
+
+/* Inicio */
+.hero{position:relative; text-align:center; padding:clamp(48px,10vw,110px) 0 50px; overflow:hidden}
+.hero h1{
+  font-size:clamp(2.8rem,9vw,6rem); line-height:1; margin:0 0 14px; font-weight:700; letter-spacing:-.01em;
+  text-shadow:0 4px 0 #b11e6a, 0 10px 30px rgba(255,79,154,.5);
+}
+.hero p{max-width:34em; margin:0 auto 28px; font-size:clamp(1.05rem,2.4vw,1.3rem); color:var(--soft)}
+.btn{
+  display:inline-block; border:none; cursor:pointer; text-decoration:none;
+  background:linear-gradient(135deg,var(--rose),#ff8a4f); color:#fff; font:700 1.15rem Fredoka,sans-serif;
+  padding:14px 34px; border-radius:999px; box-shadow:0 8px 0 #a3185f, 0 14px 30px rgba(255,79,154,.4);
+  transition:transform .12s, box-shadow .12s;
+}
+.btn:active{transform:translateY(5px); box-shadow:0 3px 0 #a3185f}
+.star{position:absolute; color:var(--gold); animation:tw 3.2s ease-in-out infinite}
+@keyframes tw{0%,100%{opacity:.3; transform:scale(.8)}50%{opacity:1; transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.star{animation:none; opacity:.7}}
+
+.panel{background:var(--glass); border:1px solid var(--line); border-radius:24px; padding:clamp(18px,3vw,32px); margin-top:26px}
+.panel h2{margin:0 0 8px; font-size:1.7rem}
+.panel p{margin:0; color:var(--soft); line-height:1.6; max-width:60ch}
+h2.title{font-size:clamp(1.8rem,5vw,2.8rem); margin:40px 0 18px}
+
+/* Episodios */
+.tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px}
+.tab{
+  border:2px solid var(--line); background:var(--glass); color:inherit; font:600 1rem Fredoka,sans-serif;
+  padding:8px 20px; border-radius:999px; cursor:pointer;
+}
+.tab[aria-selected="true"]{background:var(--gold); color:#2b1a00; border-color:var(--gold)}
+.grid{display:grid; gap:22px; grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.ep{all:unset; cursor:pointer; display:block; border-radius:20px}
+.ep .th{
+  position:relative; aspect-ratio:16/9; border-radius:20px; overflow:hidden;
+  background:linear-gradient(135deg,var(--rose),var(--plum)); border:2px solid var(--line);
+  display:grid; place-items:center;
+}
+.ep .th img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.ep .num{
+  position:absolute; left:10px; top:10px; z-index:1; background:var(--gold); color:#2b1a00;
+  font:700 .95rem Fredoka,sans-serif; padding:3px 12px; border-radius:999px;
+}
+.ep:hover .th{border-color:var(--gold); transform:translateY(-3px)}
+.ep .th{transition:transform .15s, border-color .15s}
+.ep h3{margin:10px 4px 2px; font-size:1.15rem; font-weight:600}
+.ep p{margin:0 4px; color:var(--soft); font-size:.92rem}
+.soon{text-align:center; color:var(--soft); padding:50px 10px; font-size:1.15rem}
+
+/* Reproductor */
+dialog{border:none; padding:0; width:min(960px,94vw); background:#24124f; color:var(--ink); border-radius:22px; box-shadow:0 24px 70px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(8,3,24,.8)}
+.player{aspect-ratio:16/9; background:#000}
+.player iframe{width:100%; height:100%; border:0; display:block}
+.info{padding:16px 22px 22px}
+.info h2{margin:0 0 4px; font-size:1.5rem}
+.info p{margin:0; color:var(--soft)}
+.x{position:absolute; top:10px; right:10px; width:38px; height:38px; border:none; border-radius:50%; background:rgba(0,0,0,.65); color:#fff; font-size:1.2rem; cursor:pointer}
+footer{text-align:center; color:var(--soft); padding:20px; font-size:.9rem}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#inicio">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffd24d" d="M12 1.5l2.9 6.6 7.1.6-5.4 4.7 1.7 7-6.3-3.8-6.3 3.8 1.7-7L2 8.7l7.1-.6z"/></svg>
+    <span id="nombre">Mi Serie</span>
+  </a>
+  <nav class="nav" aria-label="Menú principal">
+    <a href="#inicio" id="n-inicio">Inicio</a>
+    <a href="#episodios" id="n-episodios">Episodios</a>
+    <details id="temps">
+      <summary>Temporadas ▾</summary>
+      <div class="drop" id="drop"></div>
+    </details>
+  </nav>
+</header>
+
+<main>
+  <section id="inicio">
+    <div class="hero">
+      <span class="star" style="left:8%;top:22%;font-size:1.6rem">✦</span>
+      <span class="star" style="left:88%;top:18%;font-size:2.2rem;animation-delay:.8s">✦</span>
+      <span class="star" style="left:18%;top:78%;font-size:1.2rem;animation-delay:1.6s">✦</span>
+      <span class="star" style="left:80%;top:74%;font-size:1.5rem;animation-delay:2.2s">✦</span>
+      <h1 id="titulo">Mi Serie</h1>
+      <p id="lema">Una aventura llena de magia, amistad y valentía. Mira todos los episodios aquí.</p>
+      <a class="btn" href="#episodios">Ver episodios</a>
+    </div>
+    <div class="panel">
+      <h2>De qué trata</h2>
+      <p id="sinopsis">Escribe aquí la sinopsis de tu serie: quiénes son los personajes, qué pasa en la historia y por qué la gente debería verla.</p>
+    </div>
+  </section>
+
+  <section id="episodios" hidden>
+    <h2 class="title">Episodios</h2>
+    <div class="tabs" id="tabs" role="tablist" aria-label="Temporadas"></div>
+    <div class="grid" id="grid"></div>
+    <p class="soon" id="soon" hidden>Esta temporada llega pronto.</p>
+  </section>
+</main>
+
+<dialog id="dlg">
+  <button class="x" id="x" aria-label="Cerrar">✕</button>
+  <div class="player" id="player"></div>
+  <div class="info"><h2 id="dt"></h2><p id="dd"></p></div>
+</dialog>
+<footer>Serie original · Hecha por fans, para fans</footer>
+
+<script>
+/* ============ EDITA AQUÍ ============ */
+const SERIE = {
+  nombre: "Mi Serie",
+  lema: "Una aventura llena de magia, amistad y valentía. Mira todos los episodios aquí.",
+  sinopsis: "Escribe aquí la sinopsis de tu serie: quiénes son los personajes, qué pasa en la historia y por qué la gente debería verla.",
+  temporadas: 6
+};
+/* Un episodio por línea:
+   t = temporada, n = número, id = ID del video de YouTube (lo que va después de v=) */
+const EPISODIOS = [
+  { t:1, n:1, title:"Primer episodio", id:"3pFAsccvVyw", desc:"Descripción corta del episodio." },
+  { t:1, n:2, title:"Segundo episodio", id:"ID_DEL_VIDEO", desc:"" },
+  { t:2, n:1, title:"Inicio de la temporada 2", id:"ID_DEL_VIDEO", desc:"" }
+];
+/* ================================== */
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let temp = 1;
+
+document.title = SERIE.nombre;
+$("nombre").textContent = SERIE.nombre; $("titulo").textContent = SERIE.nombre;
+$("lema").textContent = SERIE.lema; $("sinopsis").textContent = SERIE.sinopsis;
+
+function cuenta(t){ return EPISODIOS.filter(e => e.t === t).length; }
+
+function drawMenus(){
+  const nums = Array.from({length: SERIE.temporadas}, (_, i) => i + 1);
+  $("drop").innerHTML = nums.map(t => `<button type="button" data-t="${t}">Temporada ${t} <small>${cuenta(t)} ep.</small></button>`).join("");
+  $("tabs").innerHTML = nums.map(t => `<button class="tab" role="tab" type="button" data-t="${t}" aria-selected="${t === temp}">Temp. ${t}</button>`).join("");
+  document.querySelectorAll("[data-t]").forEach(b => b.onclick = () => {
+    temp = +b.dataset.t; $("temps").open = false;
+    if(location.hash !== "#episodios") location.hash = "episodios"; else route();
+    drawMenus(); drawEps();
+  });
+}
+
+function drawEps(){
+  const list = EPISODIOS.filter(e => e.t === temp).sort((a, b) => a.n - b.n);
+  $("grid").innerHTML = list.map(e => `
+    <button class="ep" type="button" data-id="${esc(e.id)}" data-n="${e.n}">
+      <div class="th"><span class="num">Ep. ${e.n}</span>
+        <img loading="lazy" alt="" src="https://i.ytimg.com/vi/${encodeURIComponent(e.id)}/hqdefault.jpg" onerror="this.remove()"></div>
+      <h3>${esc(e.title)}</h3><p>Temporada ${e.t}</p>
+    </button>`).join("");
+  $("soon").hidden = list.length > 0;
+  $("grid").querySelectorAll(".ep").forEach(b => b.onclick = () => {
+    const e = list.find(x => x.n === +b.dataset.n);
+    $("player").innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(e.id)}?autoplay=1&rel=0" title="${esc(e.title)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    $("dt").textContent = `T${e.t} · Ep. ${e.n}: ${e.title}`; $("dd").textContent = e.desc || "";
+    $("dlg").showModal();
+  });
+}
+
+function route(){
+  const h = location.hash === "#episodios" ? "episodios" : "inicio";
+  $("inicio").hidden = h !== "inicio"; $("episodios").hidden = h !== "episodios";
+  $("n-inicio").removeAttribute("aria-current"); $("n-episodios").removeAttribute("aria-current");
+  $("n-" + h).setAttribute("aria-current", "page");
+  scrollTo(0, 0);
+}
+function shut(){ $("dlg").close(); $("player").innerHTML = ""; }
+$("x").onclick = shut;
+$("dlg").addEventListener("click", e => { if(e.target === $("dlg")) shut(); });
+$("dlg").addEventListener("cancel", () => { $("player").innerHTML = ""; });
+addEventListener("hashchange", route);
+
+drawMenus(); drawEps(); route();
+</script>
+</body>
+</html>
